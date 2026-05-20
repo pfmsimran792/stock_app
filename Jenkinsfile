@@ -9,7 +9,7 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/pfmsimran792/stock-app.git'
+                git 'https://github.com/pfmsimran792/stock_app.git'
             }
         }
 
