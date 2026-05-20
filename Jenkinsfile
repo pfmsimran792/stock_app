@@ -1,15 +1,18 @@
+
 pipeline {
+
     agent any
 
     environment {
-        DOCKER_IMAGE = "pfmsimran792/stock-app:v1"
+        DOCKER_IMAGE = "pfmsimran792/stock_app:v1"
     }
 
     stages {
 
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/pfmsimran792/stock_app'
+                git branch: 'main',
+                    url: 'https://github.com/pfmsimran792/stock_app.git'
             }
         }
 
@@ -21,6 +24,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
+
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds',
                     usernameVariable: 'DOCKER_USER',
@@ -36,8 +40,8 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
+                sh 'kubectl apply -f k8s/deployment.yml'
+                sh 'kubectl apply -f k8s/service.yml'
             }
         }
     }
